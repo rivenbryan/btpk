@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <Typography 
       variant = "h4">
-        He he XD 
+        He he XD
     </Typography>
   )
 }
