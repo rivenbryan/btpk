@@ -1,10 +1,12 @@
 import React from 'react'
 import Header from './components/header'
-import Registration from './components/Registration/Registration'
+import Footer from './components/footer';
+import { useState } from "react";
 export default function App() {
   return (
     <>
-    <Registration></Registration>
+    <Header/>
+    <Footer/>
     </>
   )
 }
