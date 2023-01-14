@@ -7,15 +7,13 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useContext } from "react";
 import { UserContext } from "../context/userContext";
 //test
 
 export default function Header() {
-  
-  const { user } = useContext(UserContext)
-  
+  const { user } = useContext(UserContext);
 
   return (
     <AppBar position="static">
@@ -39,19 +37,22 @@ export default function Header() {
           >
             BTPK
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            
-          </Box>
-           {user ?               <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton> :  <Button color="inherit" href="/login">Login</Button>} 
-        
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
+          {user ? (
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          ) : (
+            <Button color="inherit" href="/LoginRegister">
+              Login
+            </Button>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
