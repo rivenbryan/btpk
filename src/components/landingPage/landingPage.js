@@ -3,9 +3,12 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
-
+import Header from '../header';
+import Footer from '../footer';
 export default function LandingPage() {
   return (
+    <>
+    <Header/>
     <Box sx={{textAlign: 'center', marginTop: 25, border: 1}}>
       <Grid container spacing={2}>
         <Grid item xs={6}>
@@ -21,5 +24,7 @@ export default function LandingPage() {
        
       </Grid>
     </Box>
+    <Footer/>
+    </>
   );
 }
