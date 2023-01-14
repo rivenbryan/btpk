@@ -4,8 +4,11 @@ import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
 import Header from "../header";
 import Footer from "../footer";
-
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} from "firebase/auth";
+import { app, db } from "../../firebase";
+import { setDoc, doc } from 'firebase/firestore'
 const Login = () => {
+  const auth = getAuth(app);
   const [isRegister, setisRegister] = useState(false);
   const [Input, setInput] = useState({
     name: "",
@@ -22,6 +25,34 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(Input);
+    if (isRegister) {
+      createUserWithEmailAndPassword(auth, Input.email, Input.password)
+        .then((userCredential) => {
+          console.log("Register before")
+          setDoc(doc(db, "users", userCredential.user.uid), {
+            email: Input.email,
+            userID: userCredential.user.uid,
+            available: 0,
+            interest: 'ML'
+          })
+          
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+    } else {
+      signInWithEmailAndPassword(auth, Input.email, Input.password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // ...
+      }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+    }
   };
 
   const resetState = () => {
@@ -38,7 +69,7 @@ const Login = () => {
             display="flex"
             flexDirection={"column"}
             maxWidth={400}
-            alignIterms="Center"
+            alignItems="Center"
             justifyContent={"Center"}
             margin="auto"
             marginTop={5}
