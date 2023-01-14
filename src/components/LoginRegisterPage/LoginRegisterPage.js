@@ -5,7 +5,7 @@ import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
 import Header from "../header";
 import Footer from "../footer";
 
-const Login = () => {
+const LoginRegisterPage = () => {
   const [isRegister, setisRegister] = useState(false);
   const [Input, setInput] = useState({
     name: "",
@@ -110,4 +110,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginRegisterPage;

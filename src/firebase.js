@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import "firebase/firestore"
+import "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -9,10 +9,10 @@ const firebaseConfig = {
   projectId: "btpk-167be",
   storageBucket: "btpk-167be.appspot.com",
   messagingSenderId: "731193637710",
-  appId: "1:731193637710:web:20e0066eea7afae51b3c1f"
+  appId: "1:731193637710:web:20e0066eea7afae51b3c1f",
 };
 
-const app = initializeApp(firebaseConfig)
-const db = getFirestore(app)
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-export {app, db}
+export { app, db };
