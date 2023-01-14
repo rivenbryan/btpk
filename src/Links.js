@@ -7,6 +7,7 @@ import MainPage from './components/mainPage/page';
 import Login from './components/Login/Login';
 export default function Links() {
     const [user, setUser] = useState("Hello")
+    //
   return (
     <Routes>
         <Route path="/" element={user ? <MainPage/> : <LandingPage/>} />
