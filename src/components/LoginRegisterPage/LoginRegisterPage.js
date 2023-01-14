@@ -7,6 +7,7 @@ import Footer from "../footer";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} from "firebase/auth";
 import { app, db } from "../../firebase";
 import { collection, getDocs} from 'firebase/firestore'
+// test
 import { setDoc, doc } from 'firebase/firestore'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 const LoginRegisterPage = () => {
