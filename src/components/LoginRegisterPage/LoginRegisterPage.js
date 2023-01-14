@@ -7,7 +7,7 @@ import Footer from "../footer";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} from "firebase/auth";
 import { app, db } from "../../firebase";
 import { setDoc, doc } from 'firebase/firestore'
-const Login = () => {
+const LoginRegisterPage = () => {
   const auth = getAuth(app);
   const [isRegister, setisRegister] = useState(false);
   const [Input, setInput] = useState({
