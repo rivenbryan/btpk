@@ -1,13 +1,10 @@
-import { Card } from '@mui/material'
-import React from 'react'
+import { Box, Button, TextField, Card, Typography } from "@mui/material";
+import React from "react";
 
 const Registration = () => {
   return (
-    <>
-        
-          <h1>Test</h1>
-    </>
-  )
-}
+    <></>
+  );
+};
 
-export default Registration
+export default Registration;
