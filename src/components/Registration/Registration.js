@@ -4,11 +4,8 @@ import React from 'react'
 const Registration = () => {
   return (
     <>
-        <Card>
-            <Card.Body>
-
-            </Card.Body>
-        </Card>
+        
+          <h1>Test</h1>
     </>
   )
 }

@@ -1,9 +1,11 @@
 import { Container, Grid, Box, Typography } from "@mui/material";
 import React from "react";
-
+import Header from "../header";
+import Footer from "../footer";
 export default function MainPage() {
   return (
     <>
+      <Header/>
       <Container maxWidth="lg" sx={{ marginBottom: { xs: "100px" } }}>
         <Grid container>
           <Grid
@@ -99,6 +101,7 @@ export default function MainPage() {
           </Grid>
         </Grid>
       </Container>
+      <Footer/>
     </>
   );
 }
