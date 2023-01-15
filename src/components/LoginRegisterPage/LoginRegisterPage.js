@@ -1,18 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, TextField, Card, Typography, MenuItem, Select } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Card,
+  Typography,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
 import Header from "../header";
 import Footer from "../footer";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { app, db } from "../../firebase";
 import { collection, getDocs} from 'firebase/firestore'
 import { setDoc, doc } from 'firebase/firestore'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { getCountFromServer } from 'firebase/firestore';
 import uuid from 'react-uuid';
+import { collection, getDocs } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
+import { Routes, Route, useNavigate } from "react-router-dom";
 const LoginRegisterPage = () => {
-  
   let navigate = useNavigate();
   const auth = getAuth(app);
   const [open, setOpen] = React.useState(false);
@@ -24,27 +38,10 @@ const LoginRegisterPage = () => {
     interest: "",
     number: "",
   });
-  const [numberOfUsers, setNoUsers] = useState(0)
-  console.log(Input)
+  console.log(Input);
 
-  // Renders when count is updated
-  useEffect(  () => {
-    const fetchData = async () => {
-      const collectionRef = collection(db, "interests", Input.interest, "users");
-      console.log(collectionRef)
-      const snapshot = await getCountFromServer(collectionRef);
-      console.log('no. of users : ', snapshot.data().count);
-      setNoUsers(snapshot.data().count+1)
-      console.log('snapshot.data().count is ' + numberOfUsers)
-    }
-    // Complete
-    if(Input.interest === 'AI' || Input.interest === 'ML'){
-      fetchData()
-    }
-  }, [Input, numberOfUsers])
-  
   const handleChange = (e) => {
-    let { name, value } = e.target
+    let { name, value } = e.target;
     setInput((prevState) => ({
       ...prevState,
       [name]: value,
@@ -56,17 +53,15 @@ const LoginRegisterPage = () => {
     if (isRegister) {
       createUserWithEmailAndPassword(auth, Input.email, Input.password)
         .then((userCredential) => {
-          console.log("Successful!")
-          navigate('/')
+          console.log("Successful!");
+          navigate("/");
           // Add to Users Collection
           setDoc(doc(db, "users", userCredential.user.uid), {
             name: Input.name,
             email: Input.email,
             userID: userCredential.user.uid,
             available: 0,
-            interest: Input.interest
-          }).then().catch((error) => {
-            console.log(error)
+            interest: Input.interest,
           })
           console.log("Successfully created users collection")
 
@@ -99,6 +94,30 @@ const LoginRegisterPage = () => {
 
 
 
+            .then()
+            .catch((error) => {
+              console.log(error);
+            });
+
+          // Add to interests collection based on interest
+          setDoc(
+            doc(
+              db,
+              "interests/" + Input.interest + "/users/",
+              userCredential.user.uid
+            ),
+            {
+              name: Input.name,
+              userID: userCredential.user.uid,
+              available: 0,
+            }
+          )
+            .then()
+            .catch((error) => {
+              console.log(error);
+            });
+
+          // 2 Choices: Either form a group, or join to a group
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -107,14 +126,15 @@ const LoginRegisterPage = () => {
         });
     } else {
       signInWithEmailAndPassword(auth, Input.email, Input.password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        // ...
-      }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      });
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
     }
   };
 
@@ -122,8 +142,6 @@ const LoginRegisterPage = () => {
     setisRegister(!isRegister);
     setInput({ name: "", email: "", password: "", interest: "" ,number: ""});
   };
-
-
 
   const handleClose = () => {
     setOpen(false);
@@ -218,10 +236,10 @@ const LoginRegisterPage = () => {
                   </MenuItem>
                   <MenuItem value={"ML"}>Machine Learning</MenuItem>
                   <MenuItem value={"AI"}>Artificial Intelligence</MenuItem>
-                  <MenuItem value={30}>Hardware</MenuItem>
-                  <MenuItem value={40}>Data Science</MenuItem>
-                  <MenuItem value={50}>Web Development</MenuItem>
-                  <MenuItem value={60}>Software Engineering</MenuItem>/
+                  <MenuItem value={"HW"}>Hardware</MenuItem>
+                  <MenuItem value={"DS"}>Data Science</MenuItem>
+                  <MenuItem value={"WD"}>Web Development</MenuItem>
+                  <MenuItem value={"SWE"}>Software Engineering</MenuItem>/
                 </Select>
               </>
             )}
@@ -233,6 +251,7 @@ const LoginRegisterPage = () => {
               sx={{ marginTop: 3, borderRadius: 3 }}
               variant="contained"
               color="primary"
+              onClick={() => navigate("/SuccessPage")}
             >
               {isRegister ? "Register" : "Login"}
             </Button>
