@@ -5,7 +5,6 @@ import LandingPage from "./components/landingPage/landingPage";
 import MainPage from "./components/mainPage/page";
 import LoginRegisterPage from "./components/LoginRegisterPage/LoginRegisterPage";
 import { UserContext } from "./context/userContext";
-
 export default function Links() {
   const [user, setUser] = useState("Bryan");
 
