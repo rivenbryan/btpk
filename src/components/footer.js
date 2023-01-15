@@ -5,7 +5,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 const Footer = () => {
     return (
         <>
-            <Box bgcolor="info.main" sx={{ marginTop: 120 }} >
+            <Box bgcolor="info.main" sx={{ marginTop: 100 }} >
                 <Grid container spacing={2}
                     justifyContent="center" textAlign="center">
                     <Grid item xs={5}>

@@ -10,6 +10,7 @@ import { collection, getDocs} from 'firebase/firestore'
 import { setDoc, doc } from 'firebase/firestore'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { getCountFromServer } from 'firebase/firestore';
+import uuid from 'react-uuid';
 const LoginRegisterPage = () => {
   
   let navigate = useNavigate();
@@ -21,6 +22,7 @@ const LoginRegisterPage = () => {
     email: "",
     password: "",
     interest: "",
+    number: "",
   });
   const [numberOfUsers, setNoUsers] = useState(0)
   console.log(Input)
@@ -77,9 +79,22 @@ const LoginRegisterPage = () => {
           console.log("Successfully created interest collection")
           
 
-
+          
           // 2 Choices: Either form a group, or join to a group
-
+          if (numberOfUsers % 5 == 1){
+            setDoc(doc(db, "groups/" + Input.interest + "/users/", userCredential.user.uid), {
+              name: Input.name,
+              num: Input.number
+            })
+            // Form a new group
+          }else {
+            // Join a new group
+            setDoc(doc(db, "groups/" + Input.interest + "/users/", userCredential.user.uid), {
+              name: Input.name,
+              num: Input.number
+            })
+          }
+          console.log("Successfully created group")
 
 
 
@@ -105,7 +120,7 @@ const LoginRegisterPage = () => {
 
   const resetState = () => {
     setisRegister(!isRegister);
-    setInput({ name: "", email: "", password: "", interest: "" });
+    setInput({ name: "", email: "", password: "", interest: "" ,number: ""});
   };
 
 
@@ -143,6 +158,7 @@ const LoginRegisterPage = () => {
               {isRegister ? "Register" : "Login"}
             </Typography>
             {isRegister && (
+              <>
               <TextField
                 onChange={handleChange}
                 name="name"
@@ -151,7 +167,17 @@ const LoginRegisterPage = () => {
                 type={"text"}
                 variant="outlined"
                 placeholder="Name"
+
               />
+              <TextField
+              onChange={handleChange}
+              name="number"
+              value={Input.number}
+              margin="normal"
+              variant="outlined"
+              placeholder="Number"
+            />
+              </>
             )}
             <TextField
               onChange={handleChange}
@@ -162,6 +188,7 @@ const LoginRegisterPage = () => {
               variant="outlined"
               placeholder="Email"
             />
+           
             <TextField
               onChange={handleChange}
               name="password"
