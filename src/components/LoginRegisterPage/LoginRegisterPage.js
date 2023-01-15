@@ -7,13 +7,13 @@ import Footer from "../footer";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} from "firebase/auth";
 import { app, db } from "../../firebase";
 import { collection, getDocs} from 'firebase/firestore'
-// test
 import { setDoc, doc } from 'firebase/firestore'
 import { Routes, Route, useNavigate } from 'react-router-dom'
+import { getCountFromServer } from 'firebase/firestore';
 const LoginRegisterPage = () => {
+  
   let navigate = useNavigate();
   const auth = getAuth(app);
-  const [counts, setCounts] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [isRegister, setisRegister] = useState(false);
   const [Input, setInput] = useState({
@@ -22,14 +22,25 @@ const LoginRegisterPage = () => {
     password: "",
     interest: "",
   });
+  const [numberOfUsers, setNoUsers] = useState(0)
   console.log(Input)
 
-  console.log(counts)
-
- 
-
-
-
+  // Renders when count is updated
+  useEffect(  () => {
+    const fetchData = async () => {
+      const collectionRef = collection(db, "interests", Input.interest, "users");
+      console.log(collectionRef)
+      const snapshot = await getCountFromServer(collectionRef);
+      console.log('no. of users : ', snapshot.data().count);
+      setNoUsers(snapshot.data().count+1)
+      console.log('snapshot.data().count is ' + numberOfUsers)
+    }
+    // Complete
+    if(Input.interest === 'AI' || Input.interest === 'ML'){
+      fetchData()
+    }
+  }, [Input, numberOfUsers])
+  
   const handleChange = (e) => {
     let { name, value } = e.target
     setInput((prevState) => ({
@@ -40,8 +51,6 @@ const LoginRegisterPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-
     if (isRegister) {
       createUserWithEmailAndPassword(auth, Input.email, Input.password)
         .then((userCredential) => {
@@ -57,18 +66,23 @@ const LoginRegisterPage = () => {
           }).then().catch((error) => {
             console.log(error)
           })
-      
+          console.log("Successfully created users collection")
+
           // Add to interests collection based on interest 
           setDoc(doc(db, "interests/" + Input.interest + "/users/", userCredential.user.uid), {
             name: Input.name,
             userID: userCredential.user.uid,
             available: 0,
-          }).then().catch((error) => {
-            console.log(error)
           })
+          console.log("Successfully created interest collection")
           
 
+
           // 2 Choices: Either form a group, or join to a group
+
+
+
+
 
         })
         .catch((error) => {
