@@ -18,11 +18,8 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { app, db } from "../../firebase";
-import { collection, getDocs} from 'firebase/firestore'
-import { setDoc, doc } from 'firebase/firestore'
-import { Routes, Route, useNavigate } from 'react-router-dom'
-import { getCountFromServer } from 'firebase/firestore';
-import uuid from 'react-uuid';
+import { getCountFromServer } from "firebase/firestore";
+import uuid from "react-uuid";
 import { collection, getDocs } from "firebase/firestore";
 import { setDoc, doc } from "firebase/firestore";
 import { Routes, Route, useNavigate } from "react-router-dom";
@@ -31,6 +28,7 @@ const LoginRegisterPage = () => {
   const auth = getAuth(app);
   const [open, setOpen] = React.useState(false);
   const [isRegister, setisRegister] = useState(false);
+  const [NumberOfUsers, setNumberOfUsers] = useState(0); 
   const [Input, setInput] = useState({
     name: "",
     email: "",
@@ -62,37 +60,54 @@ const LoginRegisterPage = () => {
             userID: userCredential.user.uid,
             available: 0,
             interest: Input.interest,
-          })
-          console.log("Successfully created users collection")
+          });
+          console.log("Successfully created users collection");
 
-          // Add to interests collection based on interest 
-          setDoc(doc(db, "interests/" + Input.interest + "/users/", userCredential.user.uid), {
-            name: Input.name,
-            userID: userCredential.user.uid,
-            available: 0,
-          })
-          console.log("Successfully created interest collection")
-          
+          // Add to interests collection based on interest
+          setDoc(
+            doc(
+              db,
+              "interests/" + Input.interest + "/users/",
+              userCredential.user.uid
+            ),
+            {
+              name: Input.name,
+              userID: userCredential.user.uid,
+              available: 0,
+            }
+          );
+          console.log("Successfully created interest collection");
 
-          
           // 2 Choices: Either form a group, or join to a group
-          if (numberOfUsers % 5 == 1){
-            setDoc(doc(db, "groups/" + Input.interest + "/users/", userCredential.user.uid), {
-              name: Input.name,
-              num: Input.number
-            })
+          if (NumberOfUsers % 5 == 1) {
+            setDoc(
+              doc(
+                db,
+                "groups/" + Input.interest + "/users/",
+                userCredential.user.uid
+              ),
+              {
+                name: Input.name,
+                num: Input.number,
+              }
+            );
             // Form a new group
-          }else {
+          } else {
             // Join a new group
-            setDoc(doc(db, "groups/" + Input.interest + "/users/", userCredential.user.uid), {
-              name: Input.name,
-              num: Input.number
-            })
+            setDoc(
+              doc(
+                db,
+                "groups/" + Input.interest + "/users/",
+                userCredential.user.uid
+              ),
+              {
+                name: Input.name,
+                num: Input.number,
+              }
+            );
           }
-          console.log("Successfully created group")
-
-
-
+          console
+            .log("Successfully created group")
 
             .then()
             .catch((error) => {
@@ -140,7 +155,7 @@ const LoginRegisterPage = () => {
 
   const resetState = () => {
     setisRegister(!isRegister);
-    setInput({ name: "", email: "", password: "", interest: "" ,number: ""});
+    setInput({ name: "", email: "", password: "", interest: "", number: "" });
   };
 
   const handleClose = () => {
@@ -177,24 +192,23 @@ const LoginRegisterPage = () => {
             </Typography>
             {isRegister && (
               <>
-              <TextField
-                onChange={handleChange}
-                name="name"
-                value={Input.name}
-                margin="normal"
-                type={"text"}
-                variant="outlined"
-                placeholder="Name"
-
-              />
-              <TextField
-              onChange={handleChange}
-              name="number"
-              value={Input.number}
-              margin="normal"
-              variant="outlined"
-              placeholder="Number"
-            />
+                <TextField
+                  onChange={handleChange}
+                  name="name"
+                  value={Input.name}
+                  margin="normal"
+                  type={"text"}
+                  variant="outlined"
+                  placeholder="Name"
+                />
+                <TextField
+                  onChange={handleChange}
+                  name="number"
+                  value={Input.number}
+                  margin="normal"
+                  variant="outlined"
+                  placeholder="Number"
+                />
               </>
             )}
             <TextField
@@ -206,7 +220,7 @@ const LoginRegisterPage = () => {
               variant="outlined"
               placeholder="Email"
             />
-           
+
             <TextField
               onChange={handleChange}
               name="password"

@@ -49,7 +49,7 @@ export default function Header() {
               <AccountCircle />
             </IconButton>
           ) : (
-            <Button color="inherit" href="/LoginRegister">
+            <Button color="inherit" href="/LoginRegisterPage">
               Login
             </Button>
           )}

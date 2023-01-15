@@ -7,7 +7,7 @@ import LoginRegisterPage from "./components/LoginRegisterPage/LoginRegisterPage"
 import { UserContext } from "./context/userContext";
 import SuccessPage from "./components/SuccessPage/SuccessPage";
 export default function Links() {
-  const [user, setUser] = useState("Victor");
+  const [user, setUser] = useState("");
 
   return (
     <>
